@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+
+
+/*
+ * TODO: to allow for execution from File Manager (where this exe is copied to the 
+ * target folder), just ignore OrderSongs.exe. In this case, only run if the directory
+ * is otherwise empty. 
+ */
 
 namespace OrderSongs
 {
