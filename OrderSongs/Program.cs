@@ -2,13 +2,6 @@
 using System.IO;
 using System.Text.RegularExpressions;
 
-
-/*
- * TODO: to allow for execution from File Manager (where this exe is copied to the 
- * target folder), just ignore OrderSongs.exe. In this case, only run if the directory
- * is otherwise empty. 
- */
-
 namespace OrderSongs
 {
 	class Program
@@ -17,34 +10,49 @@ namespace OrderSongs
 		{
 			string executionDirectory = AppDomain.CurrentDomain.BaseDirectory;
 			executionDirectory = executionDirectory.Substring(0, executionDirectory.Length - 1);
-			Console.WriteLine($"{executionDirectory}\n{Directory.GetCurrentDirectory()}");
+
+#if DEBUG
+			Console.WriteLine($"{executionDirectory}\n{Directory.GetCurrentDirectory()}\n" +
+				$"File and folder count: {Directory.GetFiles(".", "*", SearchOption.AllDirectories).Length}");
+#endif
+
 			if (executionDirectory.ToLower() == Directory.GetCurrentDirectory().ToLower())
 			{
-				Console.WriteLine($"\nUsage: Change to export folder, then run this program from " +
-					$"directory:\n{Directory.GetCurrentDirectory()}\n\nHit a key to quit.");
-				Console.ReadKey();
-			}
-			else
-			{
-				Console.WriteLine("Hit a key to rename files, Q to quit");
-				int prefix = 100;
-				while (Console.ReadKey(true).Key != ConsoleKey.Q)
+				if (Directory.GetFiles(".", "*", SearchOption.AllDirectories).Length > 1)
 				{
-					Console.WriteLine($"Renaming unordered files with prefix: {prefix}");
-					foreach (var file in Directory.GetFiles("."))
-					{
-						if (!Regex.IsMatch(file, "[0-9]{3} "))
-						{
-							object oldName = file.Substring(2);
-							string newName = $"{prefix} {oldName}";
-							Console.WriteLine($"Renaming '{oldName}' to '{newName}'");
-							Directory.Move(file, newName);
-						}
-					}
-
-					Console.WriteLine("\nCopy next song's file then hit a key to rename files, Q to quit");
-					prefix += 10;
+					Console.WriteLine("\nUsage: Copy this program to the empty export folder and launch it");
+					Console.WriteLine("from there, then copy the first song's files, hit a key, and repeat.");
+					Console.WriteLine("\nAlternatively, in PowerShell or Command Prompt, cd to the export");
+					Console.WriteLine("folder, run this program from an absolute path (or relative path),");
+					Console.WriteLine("copy the first song's files, hit a key, and repeat. Program's path:");
+					Console.WriteLine($"{ Directory.GetCurrentDirectory()}\\OrderSongs.exe");
+					Console.WriteLine("\nHit a key to quit...");
+					Console.ReadKey();
+					return;
 				}
+			}
+
+			Console.WriteLine("Copy first song's files then hit a key to rename them, or Q to quit");
+			int prefix = 100;
+			while (Console.ReadKey(true).Key != ConsoleKey.Q)
+			{
+				Console.WriteLine($"Renaming unordered files with prefix: {prefix}");
+				foreach (var file in Directory.GetFiles("."))
+				{
+					if (file == @".\OrderSongs.exe")
+						continue;
+
+					if (!Regex.IsMatch(file, "[0-9]{3} "))
+					{
+						object oldName = file.Substring(2);
+						string newName = $"{prefix} {oldName}";
+						Console.WriteLine($"Renaming '{oldName}' to '{newName}'");
+						Directory.Move(file, newName);
+					}
+				}
+
+				Console.WriteLine("\nCopy next song's file then hit a key to rename them, or Q when finished...");
+				prefix += 10;
 			}
 		}
 	}
