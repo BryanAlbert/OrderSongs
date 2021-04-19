@@ -1,7 +1,7 @@
 OrderSongs
 ==========
 
-One can export PowerPoint slides as `jpg` files for use with a projector. Since the projector will display  the jpg files in "ASCII order," (the first slide is the first file name alphabetically, etc.) their names must be in (basically) alphabetical order. PowerPoint gives them names like `Slide00.jpg`, `Slide01.jpg`, etc. which works fine if there is only one song, but... If one wants to gather slides exported from multimple PowerPoint files, their names will collide, so he must rename the slides manually to preserve the desired order, an arduous task. This console application helps relieve that pain. 
+One can export PowerPoint slides as `jpg` files for use with a projector. Since the projector will display  the jpg files in "ASCII order," (the first slide is the first file name alphabetically, etc.) their names must be in (basically) alphabetical order. PowerPoint gives them names like `Slide00.jpg`, `Slide01.jpg`, etc. which works fine if there is only one song, but... If one wants to gather slides exported from multimple PowerPoint files, their names will collide, so one must rename the slides manually to preserve the desired order, an arduous task. This console application helps relieve that pain. 
 
 ## Usage
 From the applications Usage text:
